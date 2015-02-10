@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     @IBAction func clearDisplay() {
         display.text = "0"
         userIsInTheMiddleOfTypingANumber = false
+        brain.clear()
     }
     
     @IBAction func appendDigit(sender: UIButton) {
