@@ -25,6 +25,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var display: UILabel!
     
+    @IBAction func clearDisplay() {
+        display.text = "0"
+        userIsInTheMiddleOfTypingANumber = false
+    }
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         
