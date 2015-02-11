@@ -24,9 +24,11 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var history: UILabel!
     
     @IBAction func clearDisplay() {
         display.text = "0"
+        history.text = " "
         userIsInTheMiddleOfTypingANumber = false
         brain.clear()
     }
@@ -58,6 +60,7 @@ class ViewController: UIViewController {
                 displayValue = 0
             }
         }
+        history.text = brain.description + " ="
     }
     
     @IBAction func enter() {
@@ -67,6 +70,7 @@ class ViewController: UIViewController {
         } else {
             displayValue = 0
         }
+        history.text = brain.description + " ="
     }
 }
 
