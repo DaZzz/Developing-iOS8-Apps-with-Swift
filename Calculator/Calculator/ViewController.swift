@@ -13,21 +13,36 @@ class ViewController: UIViewController {
     var userIsInTheMiddleOfTypingANumber = false
     var brain = CalculatorBrain()
     
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
         }
         
         set {
-            display.text = "\(newValue)"
+            if let str = newValue {
+                display.text = "\(str)"
+            } else {
+                display.text = " "
+            }
         }
     }
     
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
     
+    @IBAction func setVariable() {
+        brain.variableValues["M"] = displayValue
+        userIsInTheMiddleOfTypingANumber = false
+        displayValue = brain.evaluate()
+    }
+    
+    @IBAction func pushVariable() {
+        brain.pushVariable("M")
+        history.text = brain.description + " ="
+    }
+    
     @IBAction func clearDisplay() {
-        display.text = "0"
+        displayValue = nil
         history.text = " "
         userIsInTheMiddleOfTypingANumber = false
         brain.clear()
@@ -54,22 +69,14 @@ class ViewController: UIViewController {
             enter()
         }
         if let operation = sender.currentTitle {
-            if let result = brain.performOperation(operation) {
-                displayValue = result
-            } else {
-                displayValue = 0
-            }
+            displayValue = brain.performOperation(operation)
         }
         history.text = brain.description + " ="
     }
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        if let result = brain.pushOperand(displayValue) {
-            displayValue = result
-        } else {
-            displayValue = 0
-        }
+        displayValue = brain.pushOperand(displayValue!)
         history.text = brain.description + " ="
     }
 }
